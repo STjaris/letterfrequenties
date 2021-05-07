@@ -9,14 +9,18 @@ import java.util.ArrayList;
 public class LetterFrequentiesMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
 
     public void map(LongWritable Key, Text value, Context context) throws IOException, InterruptedException {
-        String[] tokens = value.toString().split("\\s");
+        String[] tokens = value.toString().split("[^a-zA-Z]");
         ArrayList<String> list = new ArrayList<>();
         String prev = "";
+
+        // ADDS EVERY CHAR OF A STRING TO A LIST
         for (String s : tokens) {
             for(char ch : s.toCharArray()){
                 list.add(String.valueOf(ch));
             }
         }
+
+        // CREATES BIGRAM IF PREV != i
         for(String i : list){
             if(!prev.equals(i) && i != null){
                 String bigram = prev + i;
