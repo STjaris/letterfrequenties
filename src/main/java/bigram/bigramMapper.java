@@ -1,3 +1,5 @@
+package bigram;
+
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -5,8 +7,9 @@ import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class LetterFrequentiesMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
+public class bigramMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
 
     public void map(LongWritable Key, Text value, Context context) throws IOException, InterruptedException {
         String[] tokens = value.toString().split("[^a-zA-Z]");
@@ -20,12 +23,11 @@ public class LetterFrequentiesMapper extends Mapper<LongWritable, Text, Text, In
             }
         }
 
-        // CREATES BIGRAM IF PREV != i
+        // CREATES BIGRAM AND REPLACES NULL WITH "_"
         for(String i : list){
-            if(!prev.equals(i) && i != null){
-                String bigram = prev + i;
-                context.write(new Text(bigram), new IntWritable(1));
-            }
+            String bigram;
+            bigram = prev + Objects.requireNonNullElse(i, "_");
+            context.write(new Text(bigram), new IntWritable(1));
             prev = i;
         }
     }

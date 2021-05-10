@@ -1,3 +1,4 @@
+import bigram.bigramReducer;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
@@ -6,6 +7,7 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import percentages.percentagesMapper;
 
 public class LetterFrequenties {
 
@@ -19,8 +21,11 @@ public class LetterFrequenties {
         String pathname = args[1];
         FileOutputFormat.setOutputPath(job, new Path(pathname));
 
-        job.setMapperClass(LetterFrequentiesMapper.class);
-        job.setReducerClass(LetterFrequentiesReducer.class);
+//        job.setMapperClass(bigramMapper.class);
+//        job.setMapperClass(frequentyMapper.class);
+        job.setMapperClass(percentagesMapper.class);
+
+        job.setReducerClass(bigramReducer.class);
 
         job.setInputFormatClass(TextInputFormat.class);
 
