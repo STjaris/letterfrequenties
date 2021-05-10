@@ -14,7 +14,6 @@ public class frequentyMapper extends Mapper<LongWritable, Text, Text, IntWritabl
 
         // COUNT AMOUNT OF SAME FIRST LETTER
         for (String s : tokens) {
-
             context.write(new Text(String.valueOf(s.charAt(0))), new IntWritable(1));
         }
 

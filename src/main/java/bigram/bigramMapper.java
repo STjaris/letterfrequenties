@@ -25,9 +25,10 @@ public class bigramMapper extends Mapper<LongWritable, Text, Text, IntWritable> 
 
         // CREATES BIGRAM AND REPLACES NULL WITH "_"
         for(String i : list){
-            String bigram;
-            bigram = prev + Objects.requireNonNullElse(i, "_");
-            context.write(new Text(bigram), new IntWritable(1));
+            String bigram = prev + i;
+            if(bigram.length() == 2){
+                context.write(new Text(bigram), new IntWritable(1));
+            }
             prev = i;
         }
     }
