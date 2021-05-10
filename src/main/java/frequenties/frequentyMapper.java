@@ -6,8 +6,6 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 
 public class frequentyMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
