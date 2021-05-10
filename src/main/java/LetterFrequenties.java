@@ -1,6 +1,7 @@
 import bigram.bigramMapper;
 import bigram.bigramReducer;
 import frequenties.frequentyMapper;
+import frequenties.frequentyReducer;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
@@ -9,6 +10,7 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import percentages.percentagesMapper;
 
 public class LetterFrequenties {
 
@@ -37,7 +39,7 @@ public class LetterFrequenties {
 
         job2.setJarByClass(LetterFrequenties.class);
         job2.setMapperClass(frequentyMapper.class);
-        job2.setReducerClass(bigramReducer.class);
+        job2.setReducerClass(frequentyReducer.class);
 
         job2.setOutputKeyClass(Text.class);
         job2.setOutputValueClass(IntWritable.class);
@@ -46,6 +48,25 @@ public class LetterFrequenties {
         FileOutputFormat.setOutputPath(job2, new Path(args[2]));
 
         job2.setInputFormatClass(TextInputFormat.class);
-        System.exit(job.waitForCompletion(true) ? 0 : 1);
+        job2.waitForCompletion(true);
+
+        // JOB 3
+        Configuration conf3 = new Configuration();
+        Job job3 = new Job(conf3, "calculatePercentages");
+
+        job3.setJarByClass(LetterFrequenties.class);
+        job3.setMapperClass(percentagesMapper.class);
+        job3.setReducerClass(frequentyReducer.class);
+
+        job3.setOutputKeyClass(Text.class);
+        job3.setOutputValueClass(IntWritable.class);
+
+        FileInputFormat.addInputPath(job3, new Path(args[1]));
+        FileOutputFormat.setOutputPath(job3, new Path(args[2]));
+
+        job3.setInputFormatClass(TextInputFormat.class);
+        job3.waitForCompletion(true);
+
+
     }
 }
