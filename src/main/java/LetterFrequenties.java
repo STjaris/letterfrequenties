@@ -1,14 +1,12 @@
 import bigram.bigramMapper;
 import bigram.bigramReducer;
 import frequenties.frequentyMapper;
-import frequenties.frequentyReducer;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
-import org.apache.hadoop.mapreduce.lib.input.MultipleInputs;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import percentages.percentagesMapper;
@@ -17,7 +15,7 @@ public class LetterFrequenties {
 
     public static void main(String[] args) throws Exception {
 
-        //JOB 1
+        //JOB TO CREATE BIGRAMS
         Configuration conf = new Configuration();
         Job job = new Job(conf, "createBigram");
 
@@ -34,13 +32,13 @@ public class LetterFrequenties {
         job.setInputFormatClass(TextInputFormat.class);
         job.waitForCompletion(true);
 
-        // JOB 2
+        // JOB TO COLLECT AND COUNT THE AMOUNT OF FIRST LETTERS
         Configuration conf2 = new Configuration();
         Job job2 = new Job(conf2, "firstLetterCount");
 
         job2.setJarByClass(LetterFrequenties.class);
         job2.setMapperClass(frequentyMapper.class);
-        job2.setReducerClass(frequentyReducer.class);
+        job2.setReducerClass(bigramReducer.class);
 
         job2.setOutputKeyClass(Text.class);
         job2.setOutputValueClass(IntWritable.class);
@@ -51,13 +49,13 @@ public class LetterFrequenties {
         job2.setInputFormatClass(TextInputFormat.class);
         job2.waitForCompletion(true);
 
-        // JOB 3
+        // JOB TO CALCULATE THE PERCENTAGES BIGRAMS PER TOTAL FIRST LETTER COUNT
         Configuration conf3 = new Configuration();
         Job job3 = new Job(conf3, "calculatePercentages");
 
         job3.setJarByClass(LetterFrequenties.class);
         job3.setMapperClass(percentagesMapper.class);
-        job3.setReducerClass(frequentyReducer.class);
+        job3.setReducerClass(bigramReducer.class);
 
         job3.setOutputKeyClass(Text.class);
         job3.setOutputValueClass(IntWritable.class);
