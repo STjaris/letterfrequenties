@@ -3,6 +3,7 @@ import bigram.bigramReducer;
 import frequenties.frequentyMapper;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -11,6 +12,7 @@ import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import percentages.percentagesMapper;
+import percentages.percentagesReducer;
 
 public class LetterFrequenties {
 
@@ -56,10 +58,10 @@ public class LetterFrequenties {
 
         job3.setJarByClass(LetterFrequenties.class);
         job3.setMapperClass(percentagesMapper.class);
-        job3.setReducerClass(bigramReducer.class);
+        job3.setReducerClass(percentagesReducer.class);
 
         job3.setOutputKeyClass(Text.class);
-        job3.setOutputValueClass(IntWritable.class);
+        job3.setOutputValueClass(DoubleWritable.class);
 
         //FileInputFormat.addInputPath(job3, new Path("createBigram_output"));
         //FileInputFormat.addInputPath(job3, new Path("firstLetterCount_output"));
