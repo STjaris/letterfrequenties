@@ -7,6 +7,7 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import percentages.percentagesMapper;
@@ -60,8 +61,12 @@ public class LetterFrequenties {
         job3.setOutputKeyClass(Text.class);
         job3.setOutputValueClass(IntWritable.class);
 
-        FileInputFormat.addInputPath(job3, new Path("createBigram_output"));
-        FileInputFormat.addInputPath(job3, new Path("firstLetterCount_output"));
+        //FileInputFormat.addInputPath(job3, new Path("createBigram_output"));
+        //FileInputFormat.addInputPath(job3, new Path("firstLetterCount_output"));
+
+        SequenceFileInputFormat.setInputPaths(job3, new Path("createBigram_output"), new Path("firstLetterCount_output"));
+
+
         FileOutputFormat.setOutputPath(job3, new Path(args[1]));
 
         job3.setInputFormatClass(TextInputFormat.class);
