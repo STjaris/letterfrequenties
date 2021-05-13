@@ -58,13 +58,10 @@ public class LetterFrequenties {
 
         job3.setJarByClass(LetterFrequenties.class);
         job3.setMapperClass(percentagesMapper.class);
-//        job3.setReducerClass(percentagesReducer.class);
+        job3.setReducerClass(percentagesReducer.class);
 
         job3.setOutputKeyClass(Text.class);
         job3.setOutputValueClass(DoubleWritable.class);
-
-//        FileInputFormat.addInputPath(job3, new Path("createBigram_output"));
-//        FileInputFormat.addInputPath(job3, new Path("firstLetterCount_output"));
 
         SequenceFileInputFormat.setInputPaths(
                 job3,

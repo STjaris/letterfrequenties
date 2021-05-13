@@ -38,9 +38,7 @@ public class percentagesMapper extends Mapper<LongWritable, Text, Text, DoubleWr
 
         // DIVIDE BIGRAM COUNT BY TOTAL AMOUNT
         for (Map.Entry<String, String> entry : bigramMap.entrySet()) {
-
             for (Map.Entry<String, String> o : totalMap.entrySet()) {
-
                 if (entry.getKey().charAt(0) == o.getKey().charAt(0)) {
                     double num = Double.parseDouble(entry.getValue());
                     double div = Double.parseDouble(o.getValue());
@@ -51,10 +49,5 @@ public class percentagesMapper extends Mapper<LongWritable, Text, Text, DoubleWr
                 }
             }
         }
-
-
-
-
-
     }
 }
