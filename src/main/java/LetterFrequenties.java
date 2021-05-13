@@ -1,6 +1,6 @@
 import bigram.bigramMapper;
 import bigram.bigramReducer;
-import frequenties.frequentyMapper;
+import frequenties.frequencyMapper;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.DoubleWritable;
@@ -40,7 +40,7 @@ public class LetterFrequenties {
         Job job2 = new Job(conf2, "firstLetterCount");
 
         job2.setJarByClass(LetterFrequenties.class);
-        job2.setMapperClass(frequentyMapper.class);
+        job2.setMapperClass(frequencyMapper.class);
         job2.setReducerClass(bigramReducer.class);
 
         job2.setOutputKeyClass(Text.class);
@@ -58,16 +58,18 @@ public class LetterFrequenties {
 
         job3.setJarByClass(LetterFrequenties.class);
         job3.setMapperClass(percentagesMapper.class);
-        job3.setReducerClass(percentagesReducer.class);
+//        job3.setReducerClass(percentagesReducer.class);
 
         job3.setOutputKeyClass(Text.class);
         job3.setOutputValueClass(DoubleWritable.class);
 
-        //FileInputFormat.addInputPath(job3, new Path("createBigram_output"));
-        //FileInputFormat.addInputPath(job3, new Path("firstLetterCount_output"));
+//        FileInputFormat.addInputPath(job3, new Path("createBigram_output"));
+//        FileInputFormat.addInputPath(job3, new Path("firstLetterCount_output"));
 
-        SequenceFileInputFormat.setInputPaths(job3, new Path("createBigram_output"), new Path("firstLetterCount_output"));
-
+        SequenceFileInputFormat.setInputPaths(
+                job3,
+                new Path("createBigram_output"),
+                new Path("firstLetterCount_output"));
 
         FileOutputFormat.setOutputPath(job3, new Path(args[1]));
 
