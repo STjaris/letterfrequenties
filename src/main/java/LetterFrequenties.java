@@ -2,6 +2,7 @@ import bigram.bigramMapper;
 import bigram.bigramReducer;
 import frequenties.frequencyMapper;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
@@ -20,6 +21,7 @@ public class LetterFrequenties {
 
         //JOB TO CREATE BIGRAMS
         Configuration conf = new Configuration();
+        FileSystem fs = FileSystem.get(conf);
         Job job = new Job(conf, "createBigram");
 
         job.setJarByClass(LetterFrequenties.class);
@@ -72,6 +74,10 @@ public class LetterFrequenties {
 
         job3.setInputFormatClass(TextInputFormat.class);
         job3.waitForCompletion(true);
+
+        // DELETE INTERMEDIATE OUTPUTS
+        fs.delete(new Path("createBigram_output"), true);
+        fs.delete(new Path("firstLetterCount_output"), true);
 
     }
 }
