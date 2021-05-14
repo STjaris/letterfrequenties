@@ -1,3 +1,4 @@
+import MEM.memMapper;
 import bigram.bigramMapper;
 import bigram.bigramReducer;
 import frequenties.frequencyMapper;
@@ -70,14 +71,41 @@ public class LetterFrequenties {
                 new Path("createBigram_output"),
                 new Path("firstLetterCount_output"));
 
-        FileOutputFormat.setOutputPath(job3, new Path(args[1]));
+        FileOutputFormat.setOutputPath(job3, new Path("probability_output"));
 
         job3.setInputFormatClass(TextInputFormat.class);
         job3.waitForCompletion(true);
 
+
+        // JOB TO DIVIDE DIFFERENT PROBABILITIES PER LANGUAGE
+
+        Configuration conf4 = new Configuration();
+        Job job4 = new Job(conf4, "Probabilities");
+
+        job4.setJarByClass(LetterFrequenties.class);
+        job4.setMapperClass(memMapper.class);
+        job4.setReducerClass(percentagesReducer.class);
+
+        job4.setOutputKeyClass(Text.class);
+        job4.setOutputValueClass(DoubleWritable.class);
+
+        SequenceFileInputFormat.setInputPaths(
+                job4,
+                new Path("EN_probability"),
+                new Path("NL_probability"),
+                new Path("probability_output"),
+                new Path(args[0]));
+
+        FileOutputFormat.setOutputPath(job4, new Path(args[1]));
+
+        job4.setInputFormatClass(TextInputFormat.class);
+        job4.waitForCompletion(true);
+
+
         // DELETE INTERMEDIATE OUTPUTS
         fs.delete(new Path("createBigram_output"), true);
         fs.delete(new Path("firstLetterCount_output"), true);
+        fs.delete(new Path("probability_output"), true);
 
     }
 }

@@ -1,5 +1,4 @@
 percentages\percentagesMapper.class
 bigram\bigramReducer.class
 bigram\bigramMapper.class
-frequenties\frequentyMapper.class
 LetterFrequenties.class
