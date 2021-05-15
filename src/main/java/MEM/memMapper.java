@@ -1,7 +1,6 @@
 package MEM;
 
 import org.apache.hadoop.io.DoubleWritable;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -12,30 +11,50 @@ import java.util.Map;
 
 public class memMapper extends Mapper<LongWritable, Text, Text, DoubleWritable> {
 
-    static Map<String, String> NLProbabilityMap = new HashMap<>();
-    static Map<String, String> ENProbabilityMap = new HashMap<>();
-    static Map<String, String> INPUTProbabilityMap = new HashMap<>();
-
+    static Map<String, Double> NLProbabilityMap = new HashMap<>();
+    static Map<String, Double> ENProbabilityMap = new HashMap<>();
+    static Map<String, Double> INPUTProbabilityMap = new HashMap<>();
 
     public void map(LongWritable Key, Text value, Context context) throws IOException, InterruptedException {
-        String[] tokens = value.toString().split("\\s");
+        String[] tokens = value.toString().split("\\n");
+
+        double NLScore = 0;
+        double ENScore = 0;
 
         // SET TOKENS IN MAP
-        for (int i = 0; i < tokens.length; i++) {
-            if (i % 2 == 1) {
-                if(NLProbabilityMap.containsKey("zz")){
-                    ENProbabilityMap.put(tokens[i - 1], tokens[i]);
-                }else{
-                    NLProbabilityMap.put(tokens[i - 1], tokens[i]);
-                }
+        for(String s : tokens){
+            double probability = Double.parseDouble(s.split("\\s+")[1]);
+            String bigram = s.split("\\s+")[0];
+            if(context.getInputSplit().toString().contains("NL_probability")){
+                NLProbabilityMap.put(bigram, probability);
+            } else if(context.getInputSplit().toString().contains("EN_probability")){
+                ENProbabilityMap.put(bigram, probability);
+            } else if(context.getInputSplit().toString().contains("probability_output")){
+                INPUTProbabilityMap.put(bigram, probability);
             }
         }
 
-        System.out.println("NL: ");
-        System.out.println(NLProbabilityMap);
+        for (Map.Entry<String, Double> entry : INPUTProbabilityMap.entrySet()) {
+            for (Map.Entry<String, Double> ENEntry : ENProbabilityMap.entrySet()) {
+                if (entry.getKey().equals(ENEntry.getKey())) {
+                    ENScore += entry.getValue() * ENEntry.getValue();
+                }
+            }
+            for (Map.Entry<String, Double> NLEntry : NLProbabilityMap.entrySet()) {
+                if (entry.getKey().equals(NLEntry.getKey())) {
+                    NLScore += entry.getValue() * NLEntry.getValue();
+                }
+            }
 
-        System.out.println("EN: ");
-        System.out.println(ENProbabilityMap);
+            if(NLScore < ENScore){
+                context.write(new Text("EN"), new DoubleWritable(ENScore));
+            }else {
+                context.write(new Text("NL"), new DoubleWritable(NLScore));
+            }
+        }
+//
+//        System.out.println("EN: " + ENScore);
+//        System.out.println("NL: " + NLScore);
 
 
     }

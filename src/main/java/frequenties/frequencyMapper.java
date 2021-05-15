@@ -10,11 +10,12 @@ import java.io.IOException;
 
 public class frequencyMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
     public void map(LongWritable Key, Text value, Context context) throws IOException, InterruptedException {
-        String[] tokens = value.toString().split("[^a-zA-Z]");
+        String[] lines = value.toString().split("\\n");
 
         // COUNT AMOUNT OF SAME FIRST LETTER
-        for (String s : tokens) {
-            context.write(new Text(String.valueOf(s.charAt(0))), new IntWritable(1));
+        for (String s : lines) {
+            int amount = Integer.parseInt(s.split("\\s+")[1]);
+            context.write(new Text(String.valueOf(s.charAt(0))), new IntWritable(amount));
         }
 
 

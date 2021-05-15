@@ -1,4 +1,5 @@
 import MEM.memMapper;
+import MEM.memReducer;
 import bigram.bigramMapper;
 import bigram.bigramReducer;
 import frequenties.frequencyMapper;
@@ -78,13 +79,12 @@ public class LetterFrequenties {
 
 
         // JOB TO DIVIDE DIFFERENT PROBABILITIES PER LANGUAGE
-
         Configuration conf4 = new Configuration();
         Job job4 = new Job(conf4, "Probabilities");
 
         job4.setJarByClass(LetterFrequenties.class);
         job4.setMapperClass(memMapper.class);
-        job4.setReducerClass(percentagesReducer.class);
+        job4.setReducerClass(memReducer.class);
 
         job4.setOutputKeyClass(Text.class);
         job4.setOutputValueClass(DoubleWritable.class);
@@ -93,8 +93,10 @@ public class LetterFrequenties {
                 job4,
                 new Path("EN_probability"),
                 new Path("NL_probability"),
-                new Path("probability_output"),
-                new Path(args[0]));
+                new Path("probability_output")
+//                new Path(args[0])
+        );
+
 
         FileOutputFormat.setOutputPath(job4, new Path(args[1]));
 
