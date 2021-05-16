@@ -37,25 +37,16 @@ public class memMapper extends Mapper<LongWritable, Text, Text, DoubleWritable> 
         for (Map.Entry<String, Double> entry : INPUTProbabilityMap.entrySet()) {
             for (Map.Entry<String, Double> ENEntry : ENProbabilityMap.entrySet()) {
                 if (entry.getKey().equals(ENEntry.getKey())) {
-                    ENScore += entry.getValue() * ENEntry.getValue();
+                    ENScore = entry.getValue() * ENEntry.getValue();
+                    context.write(new Text("EN"), new DoubleWritable(ENScore));
                 }
             }
             for (Map.Entry<String, Double> NLEntry : NLProbabilityMap.entrySet()) {
                 if (entry.getKey().equals(NLEntry.getKey())) {
-                    NLScore += entry.getValue() * NLEntry.getValue();
+                    NLScore = entry.getValue() * NLEntry.getValue();
+                    context.write(new Text("NL"), new DoubleWritable(NLScore));
                 }
             }
-
-            if(NLScore < ENScore){
-                context.write(new Text("EN"), new DoubleWritable(ENScore));
-            }else {
-                context.write(new Text("NL"), new DoubleWritable(NLScore));
-            }
         }
-//
-//        System.out.println("EN: " + ENScore);
-//        System.out.println("NL: " + NLScore);
-
-
     }
 }

@@ -94,7 +94,6 @@ public class LetterFrequenties {
                 new Path("EN_probability"),
                 new Path("NL_probability"),
                 new Path("probability_output")
-//                new Path(args[0])
         );
 
 

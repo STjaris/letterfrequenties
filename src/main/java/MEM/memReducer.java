@@ -10,7 +10,7 @@ public class memReducer extends Reducer<Text, DoubleWritable, Text, DoubleWritab
     public void reduce(Text key, Iterable<DoubleWritable> values, Context context) throws IOException, InterruptedException {
         double sum = 0;
         for (DoubleWritable i : values) {
-            sum = i.get();
+            sum += i.get();
         }
         context.write(key, new DoubleWritable(sum));
     }
