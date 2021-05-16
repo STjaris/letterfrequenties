@@ -38,3 +38,4 @@ hadoop jar [path to .jAR] LetterFrequenties [path to input] [path to output]
 - Screenshots zijn te vinden in de folder: letterfrequenties/screenshots
 
 
+[![Maven Package](https://github.com/STjaris/letterfrequenties/actions/workflows/maven-publish.yml/badge.svg)](https://github.com/STjaris/letterfrequenties/actions/workflows/maven-publish.yml)
