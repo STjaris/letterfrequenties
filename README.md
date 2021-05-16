@@ -34,4 +34,7 @@ hadoop jar [path to .jAR] LetterFrequenties [path to input] [path to output]
 
 - Deze opdracht is alleen uitgevoerd
 - Het implementeren van de score bepalen en tellen van regels in niet gelukt i.v.m. te weinig tijd
+- tijdens het uitvoeren van de commando op Windows werd deze error weergeven: *INFO ipc.Client: Retrying connect to server: localhost/127.0.0.1:8032. Already tried 1 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=10, sleepTime=1000 MILLISECONDS)*. Deze foutmelding heb ik niet weten op te lossen.
+- Screenshots zijn te vinden in de folder: letterfrequenties/screenshots
+
 
