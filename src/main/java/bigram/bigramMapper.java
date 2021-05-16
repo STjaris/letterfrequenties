@@ -7,7 +7,6 @@ import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class bigramMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
 
@@ -23,7 +22,7 @@ public class bigramMapper extends Mapper<LongWritable, Text, Text, IntWritable> 
             }
         }
 
-        // CREATES BIGRAM AND REPLACES NULL WITH "_"
+        // CREATES BIGRAM
         for(String i : list){
             String bigram = prev + i;
             if(bigram.length() == 2){

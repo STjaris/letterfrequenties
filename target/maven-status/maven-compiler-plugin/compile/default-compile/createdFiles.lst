@@ -1,0 +1,7 @@
+percentages\percentagesMapper.class
+bigram\bigramReducer.class
+bigram\bigramMapper.class
+frequenties\frequencyMapper.class
+LetterFrequenties.class
+MEM\memMapper.class
+percentages\percentagesReducer.class
