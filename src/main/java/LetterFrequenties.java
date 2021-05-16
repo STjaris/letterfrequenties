@@ -1,8 +1,8 @@
-import MEM.memMapper;
-import MEM.memReducer;
-import bigram.bigramMapper;
-import bigram.bigramReducer;
-import frequenties.frequencyMapper;
+import maxEntropyModel.EntropyMapper;
+import maxEntropyModel.EntropyReducer;
+import bigram.BigramMapper;
+import bigram.BigramReducer;
+import frequency.frequencyMapper;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -14,8 +14,8 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import percentages.percentagesMapper;
-import percentages.percentagesReducer;
+import percentage.PercentageMapper;
+import percentage.PercentageReducer;
 
 public class LetterFrequenties {
 
@@ -27,8 +27,8 @@ public class LetterFrequenties {
         Job job = new Job(conf, "createBigram");
 
         job.setJarByClass(LetterFrequenties.class);
-        job.setMapperClass(bigramMapper.class);
-        job.setReducerClass(bigramReducer.class);
+        job.setMapperClass(BigramMapper.class);
+        job.setReducerClass(BigramReducer.class);
 
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
@@ -45,7 +45,7 @@ public class LetterFrequenties {
 
         job2.setJarByClass(LetterFrequenties.class);
         job2.setMapperClass(frequencyMapper.class);
-        job2.setReducerClass(bigramReducer.class);
+        job2.setReducerClass(BigramReducer.class);
 
         job2.setOutputKeyClass(Text.class);
         job2.setOutputValueClass(IntWritable.class);
@@ -61,8 +61,8 @@ public class LetterFrequenties {
         Job job3 = new Job(conf3, "calculatePercentages");
 
         job3.setJarByClass(LetterFrequenties.class);
-        job3.setMapperClass(percentagesMapper.class);
-        job3.setReducerClass(percentagesReducer.class);
+        job3.setMapperClass(PercentageMapper.class);
+        job3.setReducerClass(PercentageReducer.class);
 
         job3.setOutputKeyClass(Text.class);
         job3.setOutputValueClass(DoubleWritable.class);
@@ -83,8 +83,8 @@ public class LetterFrequenties {
         Job job4 = new Job(conf4, "Probabilities");
 
         job4.setJarByClass(LetterFrequenties.class);
-        job4.setMapperClass(memMapper.class);
-        job4.setReducerClass(memReducer.class);
+        job4.setMapperClass(EntropyMapper.class);
+        job4.setReducerClass(EntropyReducer.class);
 
         job4.setOutputKeyClass(Text.class);
         job4.setOutputValueClass(DoubleWritable.class);

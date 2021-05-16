@@ -1,7 +1,8 @@
-percentages\percentagesMapper.class
-bigram\bigramReducer.class
-bigram\bigramMapper.class
-frequenties\frequencyMapper.class
+bigram\BigramMapper.class
 LetterFrequenties.class
-MEM\memMapper.class
-percentages\percentagesReducer.class
+bigram\BigramReducer.class
+percentage\PercentageMapper.class
+percentage\PercentageReducer.class
+maxEntropyModel\EntropyMapper.class
+maxEntropyModel\EntropyReducer.class
+frequency\frequencyMapper.class

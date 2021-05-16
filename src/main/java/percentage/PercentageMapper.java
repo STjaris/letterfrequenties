@@ -1,4 +1,4 @@
-package percentages;
+package percentage;
 
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.LongWritable;
@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class percentagesMapper extends Mapper<LongWritable, Text, Text, DoubleWritable> {
+public class PercentageMapper extends Mapper<LongWritable, Text, Text, DoubleWritable> {
 
     static Map<String, Double> bigramMap = new HashMap<>();
     static Map<String, Double> totalMap = new HashMap<>();

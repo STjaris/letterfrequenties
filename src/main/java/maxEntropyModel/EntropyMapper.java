@@ -1,4 +1,4 @@
-package MEM;
+package maxEntropyModel;
 
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.LongWritable;
@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class memMapper extends Mapper<LongWritable, Text, Text, DoubleWritable> {
+public class EntropyMapper extends Mapper<LongWritable, Text, Text, DoubleWritable> {
 
     static Map<String, Double> NLProbabilityMap = new HashMap<>();
     static Map<String, Double> ENProbabilityMap = new HashMap<>();
